@@ -1,3 +1,3 @@
 # datstru
 
-**dat**a **stru**ctures library written in TypeScript.
+Simple **dat**a **stru**ctures library, written in TypeScript.
