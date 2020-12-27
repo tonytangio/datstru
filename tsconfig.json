@@ -3,15 +3,18 @@
     "target": "ES2020",
     "module": "commonjs",
     "lib": ["ES2020"],
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
-    "composite": true,
+    "incremental": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "strict": true
-  }
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo"
+  },
+  "include": ["src/**/*"]
 }

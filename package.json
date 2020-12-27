@@ -1,12 +1,14 @@
 {
   "name": "datstru",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint . && npx prettier --check .",
     "lint:format": "eslint --fix . && npx prettier --write .",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run test && tsc -p ."
   },
   "repository": {
     "type": "git",
