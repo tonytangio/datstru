@@ -1,7 +1,7 @@
 class LinkedListNode<T> {
-  readonly val?: T
-  prev?: LinkedListNode<T>
-  next?: LinkedListNode<T>
+  readonly val?: T;
+  prev?: LinkedListNode<T>;
+  next?: LinkedListNode<T>;
 
   constructor(val?: T) {
     this.val = val;
@@ -16,7 +16,7 @@ export default class LinkedList<T> {
   constructor(values?: T[]) {
     this.#head.next = this.#tail;
     this.#tail.prev = this.#head;
-    values?.forEach(value => this.pushBack(value));
+    values?.forEach((value) => this.pushBack(value));
   }
 
   get front(): T | undefined {
@@ -66,7 +66,9 @@ export default class LinkedList<T> {
   }
 
   static atRecursive<T>(node: LinkedListNode<T>, index: number): T {
-    return (index === 0) ? node.val! : LinkedList.atRecursive(node.next!, index - 1)
+    return index === 0
+      ? node.val!
+      : LinkedList.atRecursive(node.next!, index - 1);
   }
 
   at(index: number): T | undefined {
