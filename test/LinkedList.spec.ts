@@ -1,7 +1,7 @@
 import { LinkedList } from "../src";
 
 describe("LinkedList", () => {
-  let emptyList: LinkedList<any>;
+  let emptyList: LinkedList<unknown>;
   let someList: LinkedList<number>;
   const someListValues = [
     1,
@@ -28,14 +28,15 @@ describe("LinkedList", () => {
       expect(list.back).toBe(undefined);
     });
 
-    it("constructs with initialised values", () => {
-      const values = [1, 5, 3, 8, 0, -23, Number.MAX_VALUE, Number.MIN_VALUE];
-      const list = new LinkedList(values);
+    it("constructs with initialised someListValues", () => {
+      const list = new LinkedList(someListValues);
 
-      expect(list.size).toBe(values.length);
-      expect(list.front).toBe(values[0]);
-      expect(list.back).toBe(values[values.length - 1]);
-      values.forEach((value, index) => expect(list.at(index)).toBe(value));
+      expect(list.size).toBe(someListValues.length);
+      expect(list.front).toBe(someListValues[0]);
+      expect(list.back).toBe(someListValues[someListValues.length - 1]);
+      someListValues.forEach((value, index) =>
+        expect(list.at(index)).toBe(value)
+      );
     });
   });
 
