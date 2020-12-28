@@ -1,11 +1,9 @@
 class LinkedListNode<T> {
-  readonly val?: T;
-  prev?: LinkedListNode<T>;
-  next?: LinkedListNode<T>;
-
-  constructor(val?: T) {
-    this.val = val;
-  }
+  constructor(
+    readonly value?: T,
+    public prev?: LinkedListNode<T>,
+    public next?: LinkedListNode<T>
+  ) {}
 }
 
 export default class LinkedList<T> {
@@ -20,11 +18,11 @@ export default class LinkedList<T> {
   }
 
   get front(): T | undefined {
-    return this.#head.next?.val;
+    return this.frontNode.value;
   }
 
   get back(): T | undefined {
-    return this.#tail.prev?.val;
+    return this.backNode.value;
   }
 
   get size(): number {
@@ -32,27 +30,19 @@ export default class LinkedList<T> {
   }
 
   pushFront(val: T): void {
-    const newNode = new LinkedListNode<T>(val);
-    newNode.next = this.#head.next;
-    newNode.prev = this.#head;
-    this.#head.next!.prev = newNode;
-    this.#head.next = newNode;
+    this.frontNode = new LinkedListNode<T>(val, this.#head, this.frontNode);
     ++this.#size;
   }
 
   pushBack(val: T): void {
-    const newNode = new LinkedListNode<T>(val);
-    newNode.next = this.#tail;
-    newNode.prev = this.#tail.prev;
-    this.#tail.prev!.next = newNode;
-    this.#tail.prev = newNode;
+    this.backNode = new LinkedListNode<T>(val, this.backNode, this.#tail);
     ++this.#size;
   }
 
   popFront(): T | undefined {
     if (this.size === 0) return undefined;
     const front = this.front;
-    this.#head.next = this.#head.next?.next;
+    LinkedList.splice(this.frontNode);
     --this.#size;
     return front;
   }
@@ -60,19 +50,43 @@ export default class LinkedList<T> {
   popBack(): T | undefined {
     if (this.size === 0) return undefined;
     const back = this.back;
-    this.#tail.prev = this.#tail.prev?.prev;
+    LinkedList.splice(this.backNode);
     --this.#size;
     return back;
   }
 
-  static atRecursive<T>(node: LinkedListNode<T>, index: number): T {
-    return index === 0
-      ? node.val!
-      : LinkedList.atRecursive(node.next!, index - 1);
-  }
-
   at(index: number): T | undefined {
     if (index < 0 || index >= this.size) return undefined;
-    return LinkedList.atRecursive(this.#head.next!, index);
+    return LinkedList.atRecursive(this.frontNode, index);
+  }
+
+  private get frontNode(): LinkedListNode<T> {
+    return this.#head.next!;
+  }
+
+  private set frontNode(node: LinkedListNode<T>) {
+    this.frontNode.prev = node;
+    this.#head.next = node;
+  }
+
+  private get backNode(): LinkedListNode<T> {
+    return this.#tail.prev!;
+  }
+
+  private set backNode(node: LinkedListNode<T>) {
+    this.backNode.next = node;
+    this.#tail.prev = node;
+  }
+
+  private static splice<T>(node: LinkedListNode<T>): void {
+    const { prev, next } = node;
+    next!.prev = prev;
+    prev!.next = next;
+  }
+
+  private static atRecursive<T>(node: LinkedListNode<T>, index: number): T {
+    return index === 0
+      ? node.value!
+      : LinkedList.atRecursive(node.next!, index - 1);
   }
 }
